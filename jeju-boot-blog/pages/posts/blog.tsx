@@ -2,15 +2,18 @@ import Link from "next/link";
 import Head from "next/head";
 import Layout from "../../components/layout";
 import { getPostBySlug } from "../../lib/posts";
-import { title } from "process";
 
-interface allPostsDataProps {
-  fileNames?: string;
-  getAllData?: [];
-}
+// interface allPostsDataProps {
+//   fileNames?: string;
+//   getAllData?: [];
+// }
 
-export async function getStaticProps(getPostBySlug:allPostsDataProps) {
-  const allPostsData = getPostBySlug();
+type getPostBySlug = () => string[] | null;
+type allPostsData = string[] | null;
+
+export async function getStaticProps() {
+  const allPostsData = await getPostBySlug();
+  allPostsData = JSON.parse(JSON.stringify(allPostsData))
   return {
     props: {
       allPostsData,

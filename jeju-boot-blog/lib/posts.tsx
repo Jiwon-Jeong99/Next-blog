@@ -3,6 +3,8 @@ import fs from "fs";
 import path, { join } from "path";
 import matter from "gray-matter";
 
+type getPostBySlug = () => string[] | null ;
+
 // 현재 작업 디렉토리 문자열과 posts를 합쳐 새로운 문자열 생성
 const postsDirectory = path.join(process.cwd(), "_posts");
 
