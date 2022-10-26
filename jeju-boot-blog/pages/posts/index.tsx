@@ -8,12 +8,8 @@ import { getPostBySlug } from "../../lib/posts";
 //   getAllData?: [];
 // }
 
-type getPostBySlug = () => string[] | null;
-type allPostsData = string[] | null;
-
 export async function getStaticProps() {
-  const allPostsData = await getPostBySlug();
-  allPostsData = JSON.parse(JSON.stringify(allPostsData))
+  const allPostsData = getPostBySlug();
   return {
     props: {
       allPostsData,
@@ -22,6 +18,7 @@ export async function getStaticProps() {
 }
 
 export default function Blog({ allPostsData }) {
+  console.log(allPostsData);
   return (
     <Layout>
       <Head>
@@ -34,9 +31,14 @@ export default function Blog({ allPostsData }) {
       <div>
         {allPostsData?.map(({ id, date, title }) => (
           <li key={id}>
-            {title}
+            <Link href="/posts/[id]" as={`/posts/${id}`}>
+              <a>{title}</a>
+            </Link>
+            <br />
             {id}
+            <br />
             {date}
+            <br />
           </li>
         ))}
       </div>

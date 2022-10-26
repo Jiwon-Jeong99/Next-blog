@@ -6,9 +6,16 @@ import Head from "next/head";
 export default function Home() {
   return (
     <>
-      <h1 className="title">
-        Read <Link href="/posts/blog">this page!</Link>
-      </h1>
+      <Layout>
+        <Head>
+          <title>Next.js Blog with jiwon</title>
+        </Head>
+        <Container>
+          <h1 className="title">
+            Read <Link href="/posts/index">this page!</Link>
+          </h1>
+        </Container>
+      </Layout>
     </>
   );
 }
