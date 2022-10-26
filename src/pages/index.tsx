@@ -9,16 +9,9 @@ import styles from '@/styles/Home.module.css';
 // posts
 
 // data
-import Post from '@data/post.data';
+import Post, {getPostItems} from '@/data/post.data';
 
-// external modules
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import fm from 'front-matter';
-
-
-export default function Home({ posts }: {posts: {data: Post}[]}) {
+export default function Home({ posts }: {posts: Post[]}) {
   
   return (
     <div className={styles.container}>
@@ -34,13 +27,13 @@ export default function Home({ posts }: {posts: {data: Post}[]}) {
       <main className={styles.main}>
         {
           posts.map((post)=>(
-            <div key={post.data.id}>
+            <div key={post.id}>
               <Link
-                href={`/${post.data.id}`}
+                href={`/${post.id}`}
               >
                 <div>
-                  <span>{post.data.comment}</span>
-                  <span>{post.data.date}</span>
+                  <span>{post.comment}</span>
+                  <span>{post.date}</span>
                 </div>
               </Link>
             </div>
@@ -53,24 +46,9 @@ export default function Home({ posts }: {posts: {data: Post}[]}) {
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  // const file = await unified()
-  //   .use(remarkParse)
-  //   .use(remarkHtml)
-  //   .process(await read('__posts/1025.md'));
-
-  // console.log(String(file));
-  const postRoot = '__posts';
-
-  const files = fs.readdirSync(path.join(postRoot));
-
-  const posts = files.map((filename) => {
-    const markdownWithMeta = fs.readFileSync(
-      path.join(postRoot, filename), 'utf-8'
-    )
-
-    const { data: fm } = matter(markdownWithMeta);
-    return { data: fm }
-  });
+  const posts = (await getPostItems()).map(
+    item => item.post
+  )
   
   return {
     props: {

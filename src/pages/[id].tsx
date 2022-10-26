@@ -1,22 +1,43 @@
-import { useRouter } from "next/router";
+// next
+import { GetStaticProps, GetStaticPaths } from 'next';
 
-// external modules
-import remarkHtml from 'remark-html';
-import remarkParse from 'remark-parse';
-import { unified } from 'unified';
-import { read } from 'to-vfile';
+// data
+import { PostItem, getPostItems } from "@/data/post.data";
 
-const MainDetailPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
-  console.log(id);
-
+const MainDetailPage = ({ item }: {item: PostItem}) => {
   return (
     <div>
-      {id}
+      <div dangerouslySetInnerHTML={{__html: item.__html}}></div>
     </div>
   )
+}
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+
+  const item: PostItem[] = await getPostItems();
+
+  const id = params?.id
+
+  return {
+    props: {
+      item: item.find((value)=>value.post.id === Number(id))
+    }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const items: PostItem[] = await getPostItems();
+
+  return {
+    paths: items.map((item)=>{
+      return {
+        params: {
+          id: String(item.post.id)
+        }
+      }
+    }),
+    fallback: true
+  }
 }
 
 export default MainDetailPage;

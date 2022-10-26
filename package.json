@@ -34,9 +34,12 @@
     "path": "^0.12.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-query": "^3.39.2",
     "remark": "^14.0.2",
+    "remark-frontmatter": "^4.0.1",
     "remark-html": "^15.0.1",
     "remark-parse": "^10.0.1",
+    "remark-stringify": "^10.0.2",
     "to-vfile": "^7.2.3",
     "unified": "^10.1.2"
   },
