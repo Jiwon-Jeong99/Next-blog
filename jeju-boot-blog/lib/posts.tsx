@@ -18,14 +18,14 @@ export async function getPostBySlug() {
 
     const matterResult = matter(fileContents);
 
-    // const processedContent = await remark()
-    //   .use(html)
-    //   .process(matterResult.content);
-    // const contentHtml = processedContent.toString();
+    const processedContent = remark()
+      .use(html)
+      .process(matterResult.content);
+    const contentHtml = processedContent.toString();
     //id-데이터 뿌려줌
     return {
       id,
-      // contentHtml,
+      contentHtml,
       ...matterResult.data,
     };
   });
