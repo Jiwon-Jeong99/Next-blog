@@ -12,7 +12,7 @@ export default function Home() {
         </Head>
         <Container>
           <h1 className="title">
-            Read <Link href="/posts/index">this page!</Link>
+            Read <Link href="/posts/">this page!</Link>
           </h1>
         </Container>
       </Layout>

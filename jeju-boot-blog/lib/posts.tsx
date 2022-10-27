@@ -36,6 +36,7 @@ export async function getPostBySlug() {
   //       return -1
   //   }
   // })
+  console.log(getAllData);
   return getAllData;
 }
 
@@ -51,13 +52,13 @@ export function getAllPostIds() {
 }
 
 export function getPostData(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
 
-  const matterResult = matter(fileContents)
+  const matterResult = matter(fileContents);
 
   return {
     id,
-    ...matterResult.data
-  }
+    ...matterResult.data,
+  };
 }

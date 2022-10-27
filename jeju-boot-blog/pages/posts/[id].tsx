@@ -1,24 +1,34 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { getAllPostIds } from "../../lib/posts";
-import { getPostBySlug } from "../../lib/posts";
+import { getAllPostIds, getPostBySlug } from "../../lib/posts";
+import { GetStaticProps, GetStaticPaths } from "next";
 
-export async function getStaticProps({ params }) {
-  const allPostsData = getPostBySlug();
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const allPostsData = await getPostBySlug();
   return {
     props: {
       allPostsData,
     },
   };
-}
+};
 
-const Post = ({ allPostsData }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = await getAllPostIds();
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+const Post = ({ allPostsData, paths }) => {
   console.log(allPostsData);
   return (
     <Layout>
       {allPostsData.title}
       <br />
-      {allPostsData.data}
+      {allPostsData.id}
+      <br />
+      {allPostsData.date}
       <br />
       {allPostsData.data}
     </Layout>
@@ -26,11 +36,3 @@ const Post = ({ allPostsData }) => {
 };
 
 export default Post;
-
-export async function getStaticPaths() {
-  const paths = getAllPostIds();
-  return {
-    paths,
-    fallback: false,
-  };
-}
