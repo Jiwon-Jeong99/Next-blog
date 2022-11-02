@@ -1,10 +1,10 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { getAllPostIds, getPostBySlug } from "../../lib/posts";
+import { getPostData, getPostBySlug } from "../../lib/posts";
 import { GetStaticProps, GetStaticPaths } from "next";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const allPostsData = await getPostBySlug();
+  const allPostsData = await getPostData(params.id);
   return {
     props: {
       allPostsData,
@@ -13,14 +13,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await getAllPostIds();
+  const paths = await getPostBySlug();
   return {
     paths,
     fallback: true,
   };
 };
 
-const Post = ({ allPostsData, paths }) => {
+const Post = ({ allPostsData }) => {
   console.log(allPostsData);
   return (
     <Layout>
@@ -30,7 +30,7 @@ const Post = ({ allPostsData, paths }) => {
       <br />
       {allPostsData.date}
       <br />
-      {allPostsData.data}
+      <div dangerouslySetInnerHTML={{__html: allPostsData.contentHtml}} />
     </Layout>
   );
 };

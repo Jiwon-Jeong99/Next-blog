@@ -1,20 +1,19 @@
 import Link from "next/link";
 import Head from "next/head";
 import Layout from "../../components/layout";
-import { getPostBySlug } from "../../lib/posts";
-import { GetStaticProps } from "next";
+import { getPostData, getPostBySlug, getSortedPostsData } from "../../lib/posts";
+import { GetStaticProps, GetStaticPaths } from "next";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = await getPostBySlug();
+export async function getStaticProps() {
+  const allData = getSortedPostsData();
   return {
     props: {
-      allPostsData,
+      allData,
     },
   };
-};
+}
 
-export default function Blog({ allPostsData }) {
-  console.log(allPostsData);
+export default function Blog({ allData }) {
   return (
     <Layout>
       <Head>
@@ -25,17 +24,19 @@ export default function Blog({ allPostsData }) {
         <Link href="/">Back to home</Link>
       </h2>
       <div>
-        {allPostsData?.map(({ id, date, title }) => (
-          <li key={id}>
-            <Link href="/posts/[id]" as={`/posts/${id}`}>
-              {title}
-            </Link>
-            <br />
-            {id}
-            <br />
-            {date}
-            <br />
-          </li>
+        {allData?.map(({ id, date, title }) => (
+          <Layout>
+            <li key={id}>
+              <Link href="/posts/[id]" as={`/posts/${id}`}>
+                {allData.title}
+              </Link>
+              <br />
+              {allData.id}
+              <br />
+              {allData.date}
+              <br />
+            </li>
+          </Layout>
         ))}
       </div>
     </Layout>
